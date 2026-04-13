@@ -2,8 +2,8 @@
 declare const self: ServiceWorkerGlobalScope
 
 const CACHE_VERSION = 'v1'
-const STATIC_CACHE = `eshop-static-${CACHE_VERSION}`
-const API_CACHE = `eshop-api-${CACHE_VERSION}`
+const STATIC_CACHE = `cfr-kata-static-${CACHE_VERSION}`
+const API_CACHE = `cfr-kata-api-${CACHE_VERSION}`
 
 const STATIC_ASSETS = [
   '/',
