@@ -12,13 +12,14 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
-
 ### Production build
 
 ```bash
 npm run build
 npm run preview
 ```
+
+For PRODUCTION, open [https://kata-arouna-cfr.onrender.com/](https://kata-arouna-cfr.onrender.com/) and wait the server turn on and it start application.
 
 ---
 
