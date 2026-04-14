@@ -28,7 +28,7 @@ export function ProductListPage() {
 
   const { data: categoriesData } = useCategories()
 
-  const { data, isLoading, isFetching, isError } = useProducts({
+  const { data, isLoading, isFetching, isError, refetch } = useProducts({
     limit: PRODUCTS_PER_PAGE,
     skip,
     category: selectedCategory || undefined,
@@ -171,10 +171,10 @@ export function ProductListPage() {
         {/* Error state */}
         {isError && (
           <div className={styles.error} role="alert">
-            <p>Failed to load products. Please try again.</p>
+            <p>Failed to load products. Check your connection and try again.</p>
             <button
               className={styles.retryButton}
-              onClick={() => window.location.reload()}
+              onClick={() => void refetch()}
             >
               Retry
             </button>

@@ -18,7 +18,7 @@ export function Header() {
           <button
             className={styles.cartButton}
             onClick={toggleCart}
-            aria-label={`Open cart, ${totalItems} items`}
+            aria-label={`Open cart, ${totalItems} item${totalItems !== 1 ? 's' : ''}`}
           >
             <CartIcon />
             {totalItems > 0 && (
@@ -27,6 +27,15 @@ export function Header() {
               </span>
             )}
           </button>
+          {/* Polite announcement for screen readers when cart count changes */}
+          <span
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className={styles.srOnly}
+          >
+            {totalItems > 0 ? `${totalItems} item${totalItems !== 1 ? 's' : ''} in cart` : ''}
+          </span>
         </div>
       </div>
     </header>
