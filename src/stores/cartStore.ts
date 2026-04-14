@@ -40,18 +40,23 @@ export const useCartStore = create<CartState>()(
       // ─── Mutations ───────────────────────────────────────────────────────────
 
       addItem: (product: Product) => {
-        // Optimistic update: immediately update UI, no async needed here
+        // Guard: never add an out-of-stock product
+        if (product.stock === 0) return
+
         set((state) => {
           const existingIndex = state.items.findIndex(
             (item) => item.product.id === product.id
           )
 
           if (existingIndex >= 0) {
-            // Item exists: increment quantity
+            const existing = state.items[existingIndex]
+            // Guard: can't exceed available stock
+            if (existing.quantity >= product.stock) return state
+
             const updatedItems = [...state.items]
             updatedItems[existingIndex] = {
-              ...updatedItems[existingIndex],
-              quantity: updatedItems[existingIndex].quantity + 1,
+              ...existing,
+              quantity: existing.quantity + 1,
             }
             return { items: updatedItems }
           }
@@ -95,9 +100,12 @@ export const useCartStore = create<CartState>()(
         }
 
         set((state) => ({
-          items: state.items.map((item) =>
-            item.product.id === productId ? { ...item, quantity } : item
-          ),
+          items: state.items.map((item) => {
+            if (item.product.id !== productId) return item
+            // Cap at available stock to prevent over-ordering
+            const capped = Math.min(quantity, item.product.stock)
+            return { ...item, quantity: capped }
+          }),
         }))
       },
 

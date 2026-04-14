@@ -17,6 +17,7 @@ export function ProductCard({ product, style }: ProductCardProps) {
   const quantity = getItemQuantity(product.id)
 
   const discountedPrice = product.price * (1 - product.discountPercentage / 100)
+  const isAtMaxStock = product.stock > 0 && quantity >= product.stock
 
   const handleAddToCart = useCallback(async () => {
     setIsAdding(true)
@@ -87,13 +88,15 @@ export function ProductCard({ product, style }: ProductCardProps) {
           <button
             className={`${styles.addButton} ${isAdding ? styles.adding : ''}`}
             onClick={handleAddToCart}
-            disabled={isAdding || product.stock === 0}
+            disabled={isAdding || product.stock === 0 || isAtMaxStock}
             aria-label={`Add ${product.title} to cart`}
           >
             {isAdding ? (
               <span className={styles.checkmark}>✓</span>
             ) : product.stock === 0 ? (
               'Out of stock'
+            ) : isAtMaxStock ? (
+              'Max qty'
             ) : (
               <AddIcon />
             )}
