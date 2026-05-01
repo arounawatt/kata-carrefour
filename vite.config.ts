@@ -14,6 +14,12 @@ export default defineConfig(({ isSsrBuild }) => ({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      exclude: ['node_modules/**', 'dist/**', 'src/test/**'],
+    },
   },
   build: {
     sourcemap: true,
