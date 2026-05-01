@@ -14,8 +14,8 @@
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc --noEmit",
     "analyze": "source-map-explorer 'dist/client/assets/*.js'",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
-    "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "prepare": "husky install"
   },

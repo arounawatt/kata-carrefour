@@ -1,35 +1,36 @@
-import { useState, useCallback } from 'react'
-import type { Product } from '@/types'
-import { useCartStore } from '@/stores/cartStore'
-import styles from './ProductCard.module.css'
+import { useState, useCallback, type CSSProperties } from 'react';
+import type { Product } from '@/types';
+import { useCartStore } from '@/stores/cartStore';
+import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
-  product: Product
-  style?: React.CSSProperties
+  product: Product;
+  style?: CSSProperties;
 }
 
 export function ProductCard({ product, style }: ProductCardProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [isAdding, setIsAdding] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
-  const addItem = useCartStore((state) => state.addItem)
-  const getItemQuantity = useCartStore((state) => state.getItemQuantity)
-  const quantity = getItemQuantity(product.id)
+  const addItem = useCartStore((state) => state.addItem);
+  const getItemQuantity = useCartStore((state) => state.getItemQuantity);
+  const quantity = getItemQuantity(product.id);
 
-  const discountedPrice = product.price * (1 - product.discountPercentage / 100)
-  const isAtMaxStock = product.stock > 0 && quantity >= product.stock
+  const discountedPrice =
+    product.price * (1 - product.discountPercentage / 100);
+  const isAtMaxStock = product.stock > 0 && quantity >= product.stock;
 
   const handleAddToCart = useCallback(async () => {
-    setIsAdding(true)
+    setIsAdding(true);
     // Optimistic update — immediate UI feedback
-    addItem(product)
+    addItem(product);
 
     // Simulate brief animation window
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    setIsAdding(false)
-  }, [addItem, product])
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    setIsAdding(false);
+  }, [addItem, product]);
 
-  const ratingStars = Math.round(product.rating.rate)
+  const ratingStars = Math.round(product.rating.rate);
 
   return (
     <article className={styles.card} style={style} aria-label={product.title}>
@@ -50,7 +51,10 @@ export function ProductCard({ product, style }: ProductCardProps) {
           </span>
         )}
         {quantity > 0 && (
-          <span className={styles.inCartBadge} aria-label={`${quantity} in cart`}>
+          <span
+            className={styles.inCartBadge}
+            aria-label={`${quantity} in cart`}
+          >
             {quantity} in cart
           </span>
         )}
@@ -62,7 +66,10 @@ export function ProductCard({ product, style }: ProductCardProps) {
         <h2 className={styles.title}>{product.title}</h2>
 
         {/* Rating */}
-        <div className={styles.rating} aria-label={`Rating: ${product.rating.rate} out of 5`}>
+        <div
+          className={styles.rating}
+          aria-label={`Rating: ${product.rating.rate} out of 5`}
+        >
           <div className={styles.stars} aria-hidden="true">
             {Array.from({ length: 5 }).map((_, i) => (
               <span
@@ -81,7 +88,9 @@ export function ProductCard({ product, style }: ProductCardProps) {
           <div className={styles.prices}>
             <span className={styles.price}>${discountedPrice.toFixed(2)}</span>
             {product.discountPercentage > 5 && (
-              <span className={styles.originalPrice}>${product.price.toFixed(2)}</span>
+              <span className={styles.originalPrice}>
+                ${product.price.toFixed(2)}
+              </span>
             )}
           </div>
 
@@ -104,14 +113,22 @@ export function ProductCard({ product, style }: ProductCardProps) {
         </div>
       </div>
     </article>
-  )
+  );
 }
 
 function AddIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
       <line x1="12" y1="5" x2="12" y2="19" />
       <line x1="5" y1="12" x2="19" y2="12" />
     </svg>
-  )
+  );
 }
